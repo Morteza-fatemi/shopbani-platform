@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ShopBani | نمونه نمایشی ساختگی</title><style>
+:root{font-family:Tahoma,Arial,sans-serif;color-scheme:light;--bg:#f4f7fb;--ink:#1b2b42;--card:#fff;--line:#e0e7ef;--blue:#3559ba}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.85}main{max-width:1050px;margin:36px auto;padding:0 18px}header{border-radius:24px;background:linear-gradient(120deg,#233c80,#5173c7);color:#fff;padding:28px}h1{margin:0;font-size:29px}h2{margin:0 0 12px;font-size:21px}.eyebrow{font-size:12px;letter-spacing:.01em;font-weight:700;color:#e4e9ff}.mark{background:#fff3cc;color:#704900;padding:6px 13px;border-radius:99px;font-size:13px;display:inline-block;margin:10px 0}section{margin-top:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}.card{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--line);box-shadow:0 5px 22px #2c487010}.metric{font-size:28px;font-weight:750;direction:ltr;text-align:right}button,select{font:inherit;border:1px solid #ccd8e9;border-radius:12px;padding:7px 14px;background:#fff;cursor:pointer}button:focus-visible,select:focus-visible{outline:3px solid #9cbbff}button.primary{color:white;background:var(--blue)}table{width:100%;border-collapse:collapse}td,th{padding:10px;border-bottom:1px solid var(--line);text-align:right}th{font-size:13px;color:#5f6b7c}p{margin:6px 0;color:#55677e}.good{color:#12724d}.bad{color:#b34d37}footer{padding:24px 0;font-size:13px;color:#6c7784}.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}strong{color:inherit}@media(max-width:600px){main{margin:10px auto}header{padding:21px}h1{font-size:23px}.card{padding:15px}}
+</style></head>
+<body><main><header><div class="eyebrow">SHOPBANI · ENGINEERING PORTFOLIO</div><h1>دموی آفلاین گزارش عملیاتی فروشگاه</h1><div class="mark">تمام داده‌ها کاملاً ساختگی هستند · اتصال به فروشگاه واقعی وجود ندارد</div><p style="color:#edf3ff">نمونه‌ای برای نمایش مرزبندی داشبورد، وضعیت سرویس‌ها و گزارش با شواهد محاسباتی.</p></header>
+<section class="controls"><label for="period">بازهٔ نمونه:</label><select id="period"><option value="this">هفتهٔ نمونه A</option><option value="last">هفتهٔ نمونه B</option></select><button id="fault" type="button">شبیه‌سازی اختلال Redis</button><button type="button" id="reset">بازنشانی</button></section>
+<section class="grid" aria-live="polite"><div class="card"><p>فروش تأییدشده (واحد نمونه)</p><div class="metric" id="revenue">—</div></div><div class="card"><p>تعداد سفارش پرداخت‌شده</p><div class="metric" id="orders">—</div></div><div class="card"><p>میانگین هر سفارش</p><div class="metric" id="aov">—</div></div><div class="card"><p>نرخ اختلاف فروش با بازهٔ دیگر</p><div class="metric" id="delta">—</div></div></section>
+<section class="grid"><div class="card"><h2>نظارت سرویس‌ها</h2><table><thead><tr><th>سرویس نمونه</th><th>وضعیت</th></tr></thead><tbody><tr><td>API</td><td class="good">عملیاتی (ساختگی)</td></tr><tr><td>PostgreSQL</td><td class="good">عملیاتی (ساختگی)</td></tr><tr><td>Redis</td><td id="redis" class="good">عملیاتی (ساختگی)</td></tr></tbody></table></div><div class="card"><h2>شواهد محاسبه</h2><p id="evidence"></p><p>فرمول: فروش / سفارش = میانگین؛ اختلاف درصدی = (جدید - قبلی) / قبلی × ۱۰۰.</p><p id="message" role="status">این داده‌ها واقعی نیستند.</p></div></section>
+<footer>Offline public safe demo · No accounts, customer identifiers, private URLs or network requests. This HTML can be opened locally without internet.</footer></main>
+<script>
+"use strict";
+const sample=Object.freeze({this:Object.freeze({revenue:7200,orders:12}),last:Object.freeze({revenue:6000,orders:10})});
+let redisFault=false;
+const fmt=n=>new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(n);
+function render(){
+const key=document.getElementById('period').value,a=sample[key],other=sample[key==='this'?'last':'this'];
+const pct=100*(a.revenue-other.revenue)/other.revenue;
+document.getElementById('revenue').textContent=fmt(a.revenue);
+document.getElementById('orders').textContent=fmt(a.orders);
+document.getElementById('aov').textContent=fmt(a.revenue/a.orders);
+document.getElementById('delta').textContent=fmt(pct)+'٪';
+document.getElementById('evidence').textContent='فروش نمونه '+fmt(a.revenue)+' / '+fmt(a.orders)+' سفارش؛ بازهٔ مقایسه '+fmt(other.revenue)+' / '+fmt(other.orders)+'.';
+const cell=document.getElementById('redis');cell.textContent=redisFault?'اختلال شبیه‌سازی‌شده':'عملیاتی (ساختگی)';cell.className=redisFault?'bad':'good';
+document.getElementById('message').textContent=redisFault?'در یک اختلال واقعی باید تفاوت خطای کش با خرابی دادهٔ اصلی روشن شود. این فقط شبیه‌سازی UI است.':'این شاخص‌ها ساختگی هستند و به سامانهٔ واقعی متصل نیستند.';
+}
+document.getElementById('period').addEventListener('change',render);
+document.getElementById('fault').addEventListener('click',()=>{redisFault=!redisFault;render()});
+document.getElementById('reset').addEventListener('click',()=>{redisFault=false;document.getElementById('period').value='this';render()});
+render();
+</script></body></html>
