@@ -6,7 +6,7 @@
 <section class="controls"><label for="period">بازهٔ نمونه:</label><select id="period"><option value="this">هفتهٔ نمونه A</option><option value="last">هفتهٔ نمونه B</option></select><button id="fault" type="button">شبیه‌سازی اختلال Redis</button><button type="button" id="reset">بازنشانی</button></section>
 <section class="grid" aria-live="polite"><div class="card"><p>فروش تأییدشده (واحد نمونه)</p><div class="metric" id="revenue">—</div></div><div class="card"><p>تعداد سفارش پرداخت‌شده</p><div class="metric" id="orders">—</div></div><div class="card"><p>میانگین هر سفارش</p><div class="metric" id="aov">—</div></div><div class="card"><p>نرخ اختلاف فروش با بازهٔ دیگر</p><div class="metric" id="delta">—</div></div></section>
 <section class="grid"><div class="card"><h2>نظارت سرویس‌ها</h2><table><thead><tr><th>سرویس نمونه</th><th>وضعیت</th></tr></thead><tbody><tr><td>API</td><td class="good">عملیاتی (ساختگی)</td></tr><tr><td>PostgreSQL</td><td class="good">عملیاتی (ساختگی)</td></tr><tr><td>Redis</td><td id="redis" class="good">عملیاتی (ساختگی)</td></tr></tbody></table></div><div class="card"><h2>شواهد محاسبه</h2><p id="evidence"></p><p>فرمول: فروش / سفارش = میانگین؛ اختلاف درصدی = (جدید - قبلی) / قبلی × ۱۰۰.</p><p id="message" role="status">این داده‌ها واقعی نیستند.</p></div></section>
-<footer>Public safe demo · No accounts, customer identifiers, private URLs or network requests. This HTML can be opened locally without internet.</footer></main>
+<footer>Offline public safe demo · No accounts, customer identifiers, private URLs or network requests. This HTML can be opened locally without internet.</footer></main>
 <script>
 "use strict";
 const sample=Object.freeze({this:Object.freeze({revenue:7200,orders:12}),last:Object.freeze({revenue:6000,orders:10})});
